@@ -8,7 +8,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import static br.com.dio.personapi.utils.PersonUtils.*;
@@ -29,7 +28,7 @@ public class PersonServiceTest {
 
        when(personRepository.save(any(Person.class))).thenReturn(expectedSavedPerson);
        MessageResponseDTO expectedSuccessMessage = createExpectedMessageResponse(expectedSavedPerson.getId());
-       MessageResponseDTO successMessage = personService.createPerson(personDTO);
+       MessageResponseDTO successMessage = personService.create(personDTO);
 
        assertEquals(expectedSuccessMessage, successMessage);
     }
