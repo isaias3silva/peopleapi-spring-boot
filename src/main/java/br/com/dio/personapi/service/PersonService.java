@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 
+import javax.persistence.PersistenceException;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -41,8 +42,17 @@ public class PersonService {
     }
 
     public PersonDTO findById(Long id) throws PersonNotFoundExceptions {
-        Person person = personRepository.findById(id)
-                .orElseThrow(() ->  new PersonNotFoundExceptions(id));
+        Person person = verifyIfExists(id);
         return personMapper.toDTO(person);
+    }
+
+    public void delete(Long id) throws PersonNotFoundExceptions {
+        verifyIfExists(id);
+        personRepository.deleteById(id);
+    }
+
+    private Person verifyIfExists(Long id) throws PersonNotFoundExceptions {
+        return personRepository.findById(id)
+                .orElseThrow(() -> new PersonNotFoundExceptions(id));
     }
 }
